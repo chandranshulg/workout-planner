@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .workout-plan {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Workout Planner</h1>
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" placeholder="Enter your weight">
+
+    <label for="height">Height (cm):</label>
+    <input type="number" id="height" placeholder="Enter your height">
+
+    <button onclick="calculateBMI()">Get Workout Plan</button>
+
+    <div class="result">
+        <p id="bmiResult"></p>
+        <div id="workoutPlan" class="workout-plan"></div>
+    </div>
+</div>
+
+<script>
+    function calculateBMI() {
+        const weight = parseFloat(document.getElementById('weight').value);
+        const height = parseFloat(document.getElementById('height').value) / 100;
+
+        if (!weight || !height) {
+            alert('Please enter valid values for both weight and height.');
+            return;
+        }
+
+        const bmi = (weight / (height * height)).toFixed(2);
+        document.getElementById('bmiResult').innerText = `Your BMI is ${bmi}`;
+
+        let workoutPlan = '';
+
+        if (bmi < 18.5) {
+            workoutPlan = `
+                <h2>Underweight Workout Plan</h2>
+                <ul>
+                    <li>Day 1: Full Body Strength Training</li>
+                    <li>Day 2: Cardio + Core Exercises</li>
+                    <li>Day 3: Rest or Light Activity</li>
+                    <li>Day 4: Lower Body Strength Training</li>
+                    <li>Day 5: Upper Body Strength Training</li>
+                    <li>Day 6: Cardio + Flexibility</li>
+                    <li>Day 7: Rest</li>
+                </ul>`;
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            workoutPlan = `
+                <h2>Normal Weight Workout Plan</h2>
+                <ul>
+                    <li>Day 1: Upper Body Strength Training</li>
+                    <li>Day 2: Cardio + Core Exercises</li>
+                    <li>Day 3: Lower Body Strength Training</li>
+                    <li>Day 4: Rest or Light Activity</li>
+                    <li>Day 5: Full Body Strength Training</li>
+                    <li>Day 6: Cardio + Flexibility</li>
+                    <li>Day 7: Rest</li>
+                </ul>`;
+        } else if (bmi >= 25 && bmi < 29.9) {
+            workoutPlan = `
+                <h2>Overweight Workout Plan</h2>
+                <ul>
+                    <li>Day 1: Cardio + Full Body Strength Training</li>
+                    <li>Day 2: Cardio + Core Exercises</li>
+                    <li>Day 3: Rest or Light Activity</li>
+                    <li>Day 4: Cardio + Lower Body Strength Training</li>
+                    <li>Day 5: Cardio + Upper Body Strength Training</li>
+                    <li>Day 6: Cardio + Flexibility</li>
+                    <li>Day 7: Rest</li>
+                </ul>`;
+        } else {
+            workoutPlan = `
+                <h2>Obese Workout Plan</h2>
+                <ul>
+                    <li>Day 1: Cardio + Light Strength Training</li>
+                    <li>Day 2: Cardio + Core Exercises</li>
+                    <li>Day 3: Rest or Light Activity</li>
+                    <li>Day 4: Cardio + Light Strength Training</li>
+                    <li>Day 5: Cardio + Flexibility</li>
+                    <li>Day 6: Rest</li>
+                    <li>Day 7: Rest or Light Activity</li>
+                </ul>`;
+        }
+
+        document.getElementById('workoutPlan').innerHTML = workoutPlan;
+    }
+</script>
+
+</body>
+</html>
