@@ -61,6 +61,19 @@
             background-color: #e9ecef;
             border-radius: 5px;
         }
+        .exercise-description {
+            margin-top: 10px;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .calorie-intake {
+            margin-top: 20px;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -78,6 +91,7 @@
     <div class="result">
         <p id="bmiResult"></p>
         <div id="workoutPlan" class="workout-plan"></div>
+        <div id="calorieIntake" class="calorie-intake"></div>
     </div>
 </div>
 
@@ -95,58 +109,67 @@
         document.getElementById('bmiResult').innerText = `Your BMI is ${bmi}`;
 
         let workoutPlan = '';
+        let calorieIntake = '';
 
         if (bmi < 18.5) {
-            workoutPlan = `
-                <h2>Underweight Workout Plan</h2>
-                <ul>
-                    <li>Day 1: Full Body Strength Training</li>
-                    <li>Day 2: Cardio + Core Exercises</li>
-                    <li>Day 3: Rest or Light Activity</li>
-                    <li>Day 4: Lower Body Strength Training</li>
-                    <li>Day 5: Upper Body Strength Training</li>
-                    <li>Day 6: Cardio + Flexibility</li>
-                    <li>Day 7: Rest</li>
-                </ul>`;
+            workoutPlan = generateWorkoutPlan('Underweight');
+            calorieIntake = 'Estimated daily calorie intake: 2500-3000 kcal.';
         } else if (bmi >= 18.5 && bmi < 24.9) {
-            workoutPlan = `
-                <h2>Normal Weight Workout Plan</h2>
-                <ul>
-                    <li>Day 1: Upper Body Strength Training</li>
-                    <li>Day 2: Cardio + Core Exercises</li>
-                    <li>Day 3: Lower Body Strength Training</li>
-                    <li>Day 4: Rest or Light Activity</li>
-                    <li>Day 5: Full Body Strength Training</li>
-                    <li>Day 6: Cardio + Flexibility</li>
-                    <li>Day 7: Rest</li>
-                </ul>`;
+            workoutPlan = generateWorkoutPlan('Normal Weight');
+            calorieIntake = 'Estimated daily calorie intake: 2000-2500 kcal.';
         } else if (bmi >= 25 && bmi < 29.9) {
-            workoutPlan = `
-                <h2>Overweight Workout Plan</h2>
-                <ul>
-                    <li>Day 1: Cardio + Full Body Strength Training</li>
-                    <li>Day 2: Cardio + Core Exercises</li>
-                    <li>Day 3: Rest or Light Activity</li>
-                    <li>Day 4: Cardio + Lower Body Strength Training</li>
-                    <li>Day 5: Cardio + Upper Body Strength Training</li>
-                    <li>Day 6: Cardio + Flexibility</li>
-                    <li>Day 7: Rest</li>
-                </ul>`;
+            workoutPlan = generateWorkoutPlan('Overweight');
+            calorieIntake = 'Estimated daily calorie intake: 1500-2000 kcal.';
         } else {
-            workoutPlan = `
-                <h2>Obese Workout Plan</h2>
-                <ul>
-                    <li>Day 1: Cardio + Light Strength Training</li>
-                    <li>Day 2: Cardio + Core Exercises</li>
-                    <li>Day 3: Rest or Light Activity</li>
-                    <li>Day 4: Cardio + Light Strength Training</li>
-                    <li>Day 5: Cardio + Flexibility</li>
-                    <li>Day 6: Rest</li>
-                    <li>Day 7: Rest or Light Activity</li>
-                </ul>`;
+            workoutPlan = generateWorkoutPlan('Obese');
+            calorieIntake = 'Estimated daily calorie intake: 1200-1500 kcal.';
         }
 
         document.getElementById('workoutPlan').innerHTML = workoutPlan;
+        document.getElementById('calorieIntake').innerText = calorieIntake;
+    }
+
+    function generateWorkoutPlan(category) {
+        let plan = '';
+        if (category === 'Underweight') {
+            plan = `
+                <h2>Underweight Workout Plan</h2>
+                ${getExerciseDescription('Full Body Strength Training', 'This workout focuses on building muscle mass by engaging multiple muscle groups. Perform exercises like squats, deadlifts, and bench presses with moderate to heavy weights.')}
+                ${getExerciseDescription('Cardio + Core Exercises', 'This workout combines cardiovascular exercises like running or cycling with core exercises like planks and crunches. It helps in improving overall stamina and core strength.')}
+                <!-- Add more days as needed -->
+            `;
+        } else if (category === 'Normal Weight') {
+            plan = `
+                <h2>Normal Weight Workout Plan</h2>
+                ${getExerciseDescription('Upper Body Strength Training', 'This workout targets the upper body muscles including chest, shoulders, and arms. Perform exercises like push-ups, pull-ups, and dumbbell presses.')}
+                ${getExerciseDescription('Cardio + Core Exercises', 'This workout combines cardiovascular exercises with core exercises to maintain fitness and tone the core muscles.')}
+                <!-- Add more days as needed -->
+            `;
+        } else if (category === 'Overweight') {
+            plan = `
+                <h2>Overweight Workout Plan</h2>
+                ${getExerciseDescription('Cardio + Full Body Strength Training', 'This workout includes cardiovascular exercises to burn fat and full body strength training to tone muscles.')}
+                ${getExerciseDescription('Cardio + Core Exercises', 'Focus on cardio to reduce body fat and core exercises to strengthen the midsection.')}
+                <!-- Add more days as needed -->
+            `;
+        } else {
+            plan = `
+                <h2>Obese Workout Plan</h2>
+                ${getExerciseDescription('Cardio + Light Strength Training', 'This workout is designed to burn calories and slowly build muscle. Start with low-impact cardio and light strength training exercises.')}
+                ${getExerciseDescription('Cardio + Flexibility', 'Incorporate flexibility exercises like yoga along with cardio to improve range of motion and overall fitness.')}
+                <!-- Add more days as needed -->
+            `;
+        }
+        return plan;
+    }
+
+    function getExerciseDescription(title, description) {
+        return `
+            <div class="exercise-description">
+                <h3>${title}</h3>
+                <p>${description}</p>
+            </div>
+        `;
     }
 </script>
 
